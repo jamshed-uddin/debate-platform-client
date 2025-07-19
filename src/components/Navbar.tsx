@@ -17,8 +17,12 @@ const Navbar = async () => {
           </Link>
         </li>
         <ul className="hidden lg:flex gap-5 items-center ">
-          <li>Create Debate</li>
-          <li>Debates</li>
+          <li>
+            <Link href={"/debates"}>Debates</Link>
+          </li>
+          <li>
+            <Link href={"/create-debate"}>Create Debate</Link>
+          </li>
         </ul>
         {session?.user ? (
           <Menu />
