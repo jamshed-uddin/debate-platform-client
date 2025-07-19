@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
 
 const authRoutes = ["/login", "/register"];
-const privateRoutes = ["/add-debate", "/edit-debate"];
+const privateRoutes = ["/create-debate", "/edit-debate"];
 
 export async function middleware(req: NextRequest) {
   const session = await auth();

@@ -2,7 +2,7 @@
 
 import { DebateType } from "@/lib/definition";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { hasJoinedDebate } from "@/lib/hasJoinedDebate";
 import ModalClient from "./ModalClient";
@@ -13,7 +13,14 @@ import {
 
 const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
   const session = useSession();
+  const [hasJoin, setHasJoin] = useState<null | boolean>(null);
   const [action, setAction] = useState("");
+  useEffect(() => {
+    if (!session?.data?.user._id || !debate?.participants) {
+      return;
+    }
+    setHasJoin(hasJoinedDebate(debate?.participants, session?.data?.user._id));
+  }, [debate?.participants, session?.data?.user._id]);
   const [addParticipant, { isLoading: addParticipantLoading }] =
     useAddParticipantMutation();
   const [removeParticipant, { isLoading }] = useRemoveParticipantsMutation();
@@ -27,6 +34,7 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
         side,
       }).unwrap();
       closeModal();
+      setHasJoin(true);
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -37,12 +45,14 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
     try {
       const res = await removeParticipant(debate?._id).unwrap();
       console.log(res);
+      setHasJoin(false);
       closeModal();
     } catch (error) {
       console.log(error);
     }
   };
 
+  console.log(hasJoin);
   return (
     <div>
       {!!action && (
@@ -102,19 +112,21 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
           )}
         </ModalClient>
       )}
-      {/* {hasJoinedDebate(debate?.participants, session?.data?.user._id) ? ( */}
-      <Button
-        variant={"destructive"}
-        size={"sm"}
-        onClick={() => setAction("leave")}
-      >
-        Leave
-      </Button>
-      {/* ) : ( */}
-      <Button size={"sm"} onClick={() => setAction("join")}>
-        Join
-      </Button>
-      {/* )} */}
+      {hasJoin === null ? (
+        <div></div>
+      ) : hasJoin !== null && hasJoin === true ? (
+        <Button
+          variant={"destructive"}
+          size={"sm"}
+          onClick={() => setAction("leave")}
+        >
+          Leave
+        </Button>
+      ) : (
+        <Button size={"sm"} onClick={() => setAction("join")}>
+          Join
+        </Button>
+      )}
     </div>
   );
 };

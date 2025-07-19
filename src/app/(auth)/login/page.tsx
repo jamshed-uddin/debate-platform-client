@@ -9,12 +9,10 @@ export const metadata: Metadata = {
 
 const Login = async () => {
   return (
-    <div className="h-screen ">
-      <div className="h-full flex items-center justify-center">
-        <Suspense>
-          <LoginForm />
-        </Suspense>
-      </div>
+    <div className="flex-grow flex items-center justify-center ">
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 };

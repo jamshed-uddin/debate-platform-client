@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SetToken from "@/components/SetToken";
@@ -24,13 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` ${ibmPlex.className} antialiased lg:max-w-[100rem] lg:mx-auto mx-2 min-h-screen bg-white lg:ml-32 lg:mr-32`}
+        className={` ${ibmPlex.className} antialiased lg:max-w-[100rem] lg:mx-auto mx-2 min-h-screen bg-white lg:ml-32 lg:mr-32 flex flex-col`}
       >
         <StoreProvider>
           <SessionProvider>
             <SetToken />
-            <Navbar />
-            <main className="mt-8">{children}</main>
+            <Navbar className="" />
+            <main className="mt-8  flex-grow flex flex-col ">{children}</main>
+            <footer className="h-10">footer</footer>
           </SessionProvider>
         </StoreProvider>
       </body>
