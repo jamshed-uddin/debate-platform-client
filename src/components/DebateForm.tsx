@@ -17,6 +17,7 @@ import {
   useCreateDebateMutation,
   useUpdateDebateMutation,
 } from "@/redux/api/debateApi";
+import { useRouter } from "next/navigation";
 const debateSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -30,6 +31,7 @@ export type DebateFormData = z.infer<typeof debateSchema>;
 
 const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
   const [error, setError] = useState("");
+  const router = useRouter();
   const [createDebate, { isLoading: createDebateLoading }] =
     useCreateDebateMutation();
   const [updateDebate, { isLoading: updateDebateLoading }] =
@@ -48,10 +50,14 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
     try {
       if (initialValue) {
         const updateRes = await updateDebate(data).unwrap();
+        reset();
+        router.replace(`/debates/${updateRes?._id}`);
         console.log(updateRes);
       } else {
         console.log("hit");
         const res = await createDebate(data).unwrap();
+        reset();
+        router.replace(`/debates/${res?._id}`);
         console.log(res);
       }
     } catch (error) {

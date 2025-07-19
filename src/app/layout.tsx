@@ -30,7 +30,7 @@ export default function RootLayout({
           <SessionProvider>
             <SetToken />
             <Navbar />
-            {children}
+            <main className="mt-8">{children}</main>
           </SessionProvider>
         </StoreProvider>
       </body>

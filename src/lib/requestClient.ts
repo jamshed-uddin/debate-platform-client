@@ -10,7 +10,7 @@ export const requestClient = async <T>(
     headers: {
       "Content-Type": "application/json",
       ...(session?.user && { authorization: `Bearer ${session?.user.token}` }),
-      ...options.headers,
+      ...(options.headers || {}),
     },
     ...options,
   });
@@ -19,6 +19,7 @@ export const requestClient = async <T>(
     const { message } = await response
       .json()
       .catch(() => ({ message: response.statusText }));
+    console.log(message);
     throw new Error(message);
   }
 
