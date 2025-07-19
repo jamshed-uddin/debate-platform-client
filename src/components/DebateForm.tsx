@@ -13,6 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import {
+  useCreateDebateMutation,
+  useUpdateDebateMutation,
+} from "@/redux/api/debateApi";
 const debateSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -26,10 +30,14 @@ export type DebateFormData = z.infer<typeof debateSchema>;
 
 const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
   const [error, setError] = useState("");
+  const [createDebate, { isLoading: createDebateLoading }] =
+    useCreateDebateMutation();
+  const [updateDebate, { isLoading: updateDebateLoading }] =
+    useUpdateDebateMutation();
+
   const {
     register,
     reset,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<DebateFormData>({
@@ -37,7 +45,18 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
   });
 
   const onSubmit = async (data: DebateFormData) => {
-    console.log(data);
+    try {
+      if (initialValue) {
+        const updateRes = await updateDebate(data).unwrap();
+        console.log(updateRes);
+      } else {
+        console.log("hit");
+        const res = await createDebate(data).unwrap();
+        console.log(res);
+      }
+    } catch (error) {
+      setError((error as Error).message);
+    }
   };
 
   return (
@@ -147,7 +166,12 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
           <span className="block mb-2 text-red-500 text-sm">{error}</span>
         )}
         <div className="flex justify-center">
-          <Button type="submit">Save</Button>
+          <Button
+            type="submit"
+            disabled={createDebateLoading || updateDebateLoading}
+          >
+            Save
+          </Button>
         </div>
       </form>
     </div>

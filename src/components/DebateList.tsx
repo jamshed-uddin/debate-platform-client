@@ -1,5 +1,6 @@
 import { DebateType } from "@/lib/definition";
 import React from "react";
+import DebateCard from "./DebateCard";
 
 const DebateList = ({ debates }: { debates: DebateType[] }) => {
   return (
@@ -7,11 +8,9 @@ const DebateList = ({ debates }: { debates: DebateType[] }) => {
       {!debates?.length ? (
         <div>No debate found</div>
       ) : (
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {debates?.map((debate) => (
-            <div key={debate._id}>
-              <h3>{debate.title}</h3>
-            </div>
+            <DebateCard key={debate._id} debate={debate} />
           ))}
         </div>
       )}
