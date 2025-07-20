@@ -8,7 +8,7 @@ export type DebateType = {
   duration: number;
   tags: string[];
   participants: ParticipantType[];
-  winner: "Support" | "Oppose";
+  winnerStatus: "Support" | "Oppose" | "Draw";
   createdAt: string;
   updatedAt: string;
 };

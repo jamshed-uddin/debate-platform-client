@@ -32,9 +32,9 @@ const Participants = ({ debateId }: { debateId: string }) => {
             {participants?.map((indv) => (
               <div
                 key={indv._id}
-                className="border border-gray-400 rounded-xl p-2"
+                className="border border-gray-300 rounded-xl p-2"
               >
-                <h3 className="font-semibold">
+                <h3 className="font-medium">
                   {(indv.userId as UserType)?.name}
                 </h3>
               </div>

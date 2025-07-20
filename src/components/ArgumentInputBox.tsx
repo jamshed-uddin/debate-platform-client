@@ -14,12 +14,87 @@ import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { remainingDebateTime } from "@/lib/timeUtilities";
 
+const bannedWords = [
+  "stupid",
+  "idiot",
+  "dumb",
+  "fool",
+  "moron",
+  "hate",
+  "trash",
+  "nonsense",
+  "garbage",
+  "ugly",
+  "shut up",
+  "loser",
+  "jerk",
+  "screw you",
+  "bastard",
+  "crap",
+  "hell",
+  "weirdo",
+  "creep",
+  "psycho",
+  "skank",
+  "nutjob",
+  "shit",
+  "sh1t",
+  "s-h-i-t",
+  "fuck",
+  "f*ck",
+  "fvck",
+  "f@ck",
+  "fucking",
+  "f*cking",
+  "fvcking",
+  "f@cking",
+  "bitch",
+  "biatch",
+  "b!tch",
+  "b1tch",
+  "asshole",
+  "a$$hole",
+  "dick",
+  "d!ck",
+  "d1ck",
+  "douche",
+  "piss",
+  "slut",
+  "sl00t",
+  "retard",
+  "r3tard",
+  "cunt",
+  "c*nt",
+  "damn",
+  "whore",
+  "h0e",
+  "suck",
+  "sux",
+  "motherfucker",
+  "mf",
+  "jackass",
+  "dipshit",
+  "bullshit",
+  "bs",
+];
+
 type FormData = {
   content: string;
 };
 
 const contentSchema = z.object({
-  content: z.string().min(1, "Content is required"),
+  content: z
+    .string()
+    .refine(
+      (val) => {
+        const valueLowerCase = val.toLowerCase();
+        return !bannedWords.some((word) => valueLowerCase.includes(word));
+      },
+      {
+        message: "Your argument contains inappropriate language.",
+      }
+    )
+    .min(1, "Content is required"),
 });
 const ArgumentInputBox = ({
   debate,
@@ -47,6 +122,7 @@ const ArgumentInputBox = ({
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(contentSchema),
+    mode: "onChange",
   });
 
   const onSubmit = async (data: FormData) => {

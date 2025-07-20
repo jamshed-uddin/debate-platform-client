@@ -4,7 +4,6 @@ import DurationTimer from "@/components/DurationTimer";
 import EditOrDeleteDebate from "@/components/EditOrDeleteDebate";
 import ImageComponent from "@/components/ImageComponent";
 import JoinLeaveMenu from "@/components/JoinLeaveMenu";
-
 import { getDebate } from "@/lib/getDebate";
 import { remainingDebateTime } from "@/lib/timeUtilities";
 import { TrophyIcon } from "@heroicons/react/24/outline";
@@ -50,15 +49,19 @@ const DebateDetailPage = async ({
       <div className="my-3 flex flex-col lg:flex-row justify-end lg:items-center gap-4">
         <div className=" flex items-center gap-2">
           {remainingDebateTime(debate?.createdAt, debate?.duration) < 1 &&
-            debate?.winner && (
+            debate?.winnerStatus && (
               <>
                 <div className="border-red-500 bg-red-100  font-medium border rounded-lg px-1 text-red-500">
                   Ended
                 </div>
                 <div className="flex items-center gap-1 border border-amber-500  px-2 rounded-xl">
                   <TrophyIcon className="w-5 h-5 text-amber-500 inline" />{" "}
-                  <span>Winner</span> <span>-</span>
-                  <span> Support{debate?.winner}</span>
+                  <span>Result</span> <span>-</span>
+                  <span>
+                    {debate?.winnerStatus === "Draw"
+                      ? "Draw"
+                      : debate?.winnerStatus + "won"}
+                  </span>
                 </div>
               </>
             )}
