@@ -56,3 +56,10 @@ export type ArgumentType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type ScorerType = {
+  totalDebates: string;
+  totalVotes: string;
+  userId: string;
+  name: string;
+};

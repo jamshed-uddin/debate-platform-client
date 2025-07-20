@@ -6,6 +6,7 @@ import { DebateType } from "@/lib/definition";
 import { useGetArgumentQuery } from "@/redux/api/argumentApi";
 import ArgumentCard from "./ArgumentCard";
 import { ArgumentListSkeleton } from "./Skeletons";
+import FadeAnimation from "./FadeAnimation";
 
 const Arguments = ({ debate }: { debate: DebateType }) => {
   const {
@@ -30,12 +31,10 @@ const Arguments = ({ debate }: { debate: DebateType }) => {
         <div>Be the first to post argument</div>
       ) : (
         <div className="space-y-4">
-          {debateArguments?.map((debateArg) => (
-            <ArgumentCard
-              argument={debateArg}
-              key={debateArg._id}
-              debate={debate}
-            />
+          {debateArguments?.map((debateArg, idx) => (
+            <FadeAnimation key={debateArg._id} delay={idx * 0.1}>
+              <ArgumentCard argument={debateArg} debate={debate} />
+            </FadeAnimation>
           ))}
         </div>
       )}

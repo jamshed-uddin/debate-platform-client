@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 const FadeAnimation = ({
   children,
   delay = 0,
-  duration = 0.5,
+  duration = 0.6,
 }: {
   children: ReactNode;
   delay?: number;

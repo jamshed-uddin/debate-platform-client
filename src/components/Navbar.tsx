@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { Button } from "./ui/button";
 import AccountMenu from "./AccountMenu";
 import { cn } from "@/lib/utils";
+import { TrophyIcon } from "@heroicons/react/24/solid";
 
 const Navbar = async ({ className }: { className?: string }) => {
   const session = await auth();
@@ -26,6 +27,11 @@ const Navbar = async ({ className }: { className?: string }) => {
             <Link href={"/create-debate"}>Create Debate</Link>
           </li>
         </ul>
+        <li>
+          <Link href={"/score-board"}>
+            <TrophyIcon className="w-5 h-5 text-amber-400 " />
+          </Link>
+        </li>
         <div className="hidden lg:block">
           {session ? (
             <AccountMenu />
