@@ -16,7 +16,18 @@ const debateApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    deleteDebate: builder.mutation<{ message: string }, string>({
+      query: (debateId) => ({
+        url: `/debates/${debateId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useCreateDebateMutation, useUpdateDebateMutation } = debateApi;
+export const {
+  useCreateDebateMutation,
+  useUpdateDebateMutation,
+  useDeleteDebateMutation,
+} = debateApi;
