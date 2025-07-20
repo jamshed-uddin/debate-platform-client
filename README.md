@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Open Debate - Online debate platform
 
-## Getting Started
+- live demo: [https://opendebate.vercel.app/](https://opendebate.vercel.app/)
 
-First, run the development server:
+### Test user
+
+- email- johndoe@gmail.com
+- password - passjohndoe
+
+## Tech stack
+
+- Next js
+- Shadcn UI
+- Auth js
+- Tailwind CSS
+
+## Core features
+
+- Authentication
+- Create/edit debate
+- Join debates as Support/Oppose
+- Post argument for debates
+- Vote arguments
+
+## Enhancements
+
+- Next js for fast, file-based routing, SEO friendly web pages.
+- Shadcn ui components.
+- Tailwind CSS for fast and consistent styling.
+- Auth js for authentication and session management.
+- Framer motion for animation
+- Loading skeleton UI.
+
+## Run Locally
+
+**Clone the repository**
+
+```bash
+git clone https://github.com/jamshed-uddin/debate-platform-client.git
+
+```
+
+**Change directory**
+
+```bash
+cd debate-platform-client
+```
+
+**Install packages**
+
+```bash
+npm install
+```
+
+**Set environment variables**
+
+```env
+AUTH_GOOGLE_ID= google auth id
+AUTH_GOOGLE_SECRET= google auth secret
+AUTH_SECRET= random secret string
+NEXT_PUBLIC_SERVER_URL= http://serverurl/api
+```
+
+**Start the app**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+"dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^5.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@reduxjs/toolkit": "^2.8.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.525.0",
+    "motion": "^12.23.6",
+    "next": "15.4.1",
+    "next-auth": "^5.0.0-beta.29",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.60.0",
+    "react-hot-toast": "^2.5.2",
+    "react-redux": "^9.2.0",
+    "react-timer-hook": "^4.0.5",
+    "tailwind-merge": "^3.3.1",
+    "use-debounce": "^10.0.5",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.1",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.3.5",
+    "typescript": "^5"
+  }
+```
