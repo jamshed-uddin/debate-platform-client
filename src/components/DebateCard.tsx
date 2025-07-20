@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 import { DebateType } from "@/lib/definition";
-import Image from "next/image";
 
 import Link from "next/link";
 import { remainingDebateTime } from "@/lib/timeUtilities";
+import ImageComponent from "./ImageComponent";
 
 const DebateCard = ({ debate }: { debate: DebateType }) => {
   return (
@@ -19,12 +19,11 @@ const DebateCard = ({ debate }: { debate: DebateType }) => {
             )}
           </div>
           <div className="h-40 w-full overflow-hidden">
-            <Image
+            <ImageComponent
               src={debate.banner}
               alt={debate.title}
               height={300}
               width={400}
-              className="h-full w-full object-cover object-top"
             />
           </div>
         </CardHeader>

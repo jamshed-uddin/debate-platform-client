@@ -11,6 +11,7 @@ import {
   useRemoveParticipantsMutation,
 } from "@/redux/api/participantsApi";
 import { remainingDebateTime } from "@/lib/timeUtilities";
+import toast from "react-hot-toast";
 
 const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
   const session = useSession();
@@ -119,7 +120,7 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
           )}
         </ModalClient>
       )}
-      {hasJoin === null ? (
+      {session?.status === "loading" ? (
         <div></div>
       ) : hasJoin !== null && hasJoin === true ? (
         <Button
@@ -132,7 +133,12 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
       ) : (
         <Button
           size={"sm"}
-          onClick={() => setAction("join")}
+          onClick={() => {
+            if (!session?.data) {
+              return toast.error("Login to join debate");
+            }
+            setAction("join");
+          }}
           disabled={
             remainingDebateTime(debate?.createdAt, debate?.duration) < 1
           }

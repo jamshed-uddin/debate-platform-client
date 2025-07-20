@@ -43,18 +43,24 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
   } = useForm<DebateFormData>({
     resolver: zodResolver(debateSchema),
   });
+
+  console.log(initialValue);
   const onSubmit = async (data: DebateFormData) => {
+    setError("");
     try {
       if (initialValue) {
         // update debate
-
-        const updateRes = await updateDebate({
+        const updatedData = {
           ...data,
+          _id: initialValue._id,
+          userId: initialValue.userId,
           tags:
             typeof data.tags === "string"
               ? data.tags.split(",").map((t) => t.trim())
               : data.tags,
-        }).unwrap();
+        };
+        console.log(updatedData);
+        const updateRes = await updateDebate(updatedData).unwrap();
         reset();
         router.replace(`/debates/${updateRes?._id}`);
         console.log(updateRes);
@@ -93,6 +99,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 : "border-black focus:outline-indigo-500"
             }`}
             placeholder="e.g. Should Social Media Be Regulated by Governments?"
+            defaultValue={initialValue?.title}
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title.message}</span>
@@ -109,6 +116,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 : "border-black focus:outline-indigo-500"
             }`}
             placeholder="e.g. Explore the balance between free speech and misinformation. Should governments step in to regulate platforms?"
+            defaultValue={initialValue?.description}
           />
           {errors.description && (
             <span className="text-red-500 text-sm">
@@ -174,6 +182,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                   ? "border-red-500 focus:outline-red-500"
                   : "border-black focus:outline-indigo-500"
               }`}
+              defaultValue={initialValue?.category}
             >
               <option value="">Category</option>
               {debateCategories.map((category) => (
@@ -198,6 +207,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                   ? "border-red-500 focus:outline-red-500"
                   : "border-black focus:outline-indigo-500"
               }`}
+              defaultValue={String(initialValue?.duration)}
             >
               <option value="">Duration</option>
               {[1, 2, 3, 5, 7, 12, 24, 48, 72].map((time) => (
@@ -224,6 +234,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 : "border-black focus:outline-indigo-500"
             }`}
             placeholder="e.g. Ethics, Morality, FreeSpeech, Censorship, Privacy, Freedom, Democracy"
+            defaultValue={initialValue?.tags.join(",")}
           />
           {errors.tags && (
             <span className="text-red-500 text-sm">{errors.tags.message}</span>

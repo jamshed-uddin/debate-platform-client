@@ -16,7 +16,7 @@ type FormData = {
 };
 
 const contentSchema = z.object({
-  content: z.string().min(1, "Password is required"),
+  content: z.string().min(1, "Content is required"),
 });
 const ArgumentInputBox = ({
   debate,
@@ -46,7 +46,7 @@ const ArgumentInputBox = ({
 
   const onSubmit = async (data: FormData) => {
     try {
-      if (session.status === "unauthenticated") {
+      if (!session?.data) {
         return toast.error("Login to post argument");
       }
 
