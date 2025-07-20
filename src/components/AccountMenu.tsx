@@ -25,7 +25,7 @@ const AccountMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <Link href={"/settings"} className="w-full">
+          <Link href={"/account"} className="w-full">
             Settings
           </Link>
         </DropdownMenuItem>

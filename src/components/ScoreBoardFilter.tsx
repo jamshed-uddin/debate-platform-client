@@ -26,7 +26,7 @@ const ScoreBoardFilter = () => {
           name=""
           id=""
           defaultValue={searchParams.get("filter")?.toString()}
-          className={`border rounded-md px-2 py-1 w-fit   border-black focus:outline-indigo-500`}
+          className={`border rounded-xl px-2 py-.5 w-fit   border-gray-400 focus:outline-indigo-500`}
         >
           <option value="">All time</option>
           <option value="weakly">Weekly</option>

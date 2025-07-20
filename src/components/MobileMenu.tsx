@@ -37,7 +37,7 @@ export function MobileMenu({ isAuthenticated }: { isAuthenticated: boolean }) {
         {isAuthenticated ? (
           <>
             <DropdownMenuItem>
-              <Link href={"/settings"} className="w-full">
+              <Link href={"/account"} className="w-full">
                 Settings
               </Link>
             </DropdownMenuItem>
