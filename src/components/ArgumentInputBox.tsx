@@ -143,8 +143,6 @@ const ArgumentInputBox = ({
         (participant) => participant.userId === session?.data.user._id
       )?.side;
 
-      console.log("side", participantsSide);
-
       if (!participantsSide) {
         return toast.error("Join debate to post argument");
       }

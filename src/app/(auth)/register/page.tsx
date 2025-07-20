@@ -19,12 +19,10 @@ const Register = async () => {
   }
 
   return (
-    <div className="h-screen ">
-      <div className="h-full flex items-center justify-center">
-        <Suspense>
-          <RegisterForm />
-        </Suspense>
-      </div>
+    <div className="flex-grow flex flex-col items-center justify-center ">
+      <Suspense>
+        <RegisterForm />
+      </Suspense>
     </div>
   );
 };

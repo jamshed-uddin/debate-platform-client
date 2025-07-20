@@ -55,8 +55,6 @@ npm install
 **Set environment variables**
 
 ```env
-AUTH_GOOGLE_ID= google auth id
-AUTH_GOOGLE_SECRET= google auth secret
 AUTH_SECRET= random secret string
 NEXT_PUBLIC_SERVER_URL= http://serverurl/api
 ```

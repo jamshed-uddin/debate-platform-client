@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const Login = async () => {
   return (
-    <div className="flex-grow flex items-center justify-center ">
+    <div className="flex-grow flex flex-col items-center justify-center ">
       <Suspense>
         <LoginForm />
       </Suspense>
