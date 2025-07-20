@@ -1,7 +1,7 @@
 import ArgumentParticipants from "@/components/ArgumentParticipants";
-import Arguments from "@/components/Arguments";
+
 import JoinLeaveMenu from "@/components/JoinLeaveMenu";
-import Participants from "@/components/Participants";
+
 import { DebateType } from "@/lib/definition";
 import { requestClient } from "@/lib/requestClient";
 import Image from "next/image";
@@ -39,11 +39,17 @@ const DebateDetailPage = async ({
   const debate = await getDebate(id);
   console.log(debate);
   return (
-    <div>
-      <div>
-        <Image src={debate?.banner} alt={debate?.title} />
+    <div className="mb-10">
+      <div className="h-96 w-full rounded-xl overflow-hidden my-2 relative">
+        <Image
+          src={debate?.banner}
+          alt={debate?.title}
+          height={200}
+          width={600}
+          className="h-full w-full object-cover object-top rounded-xl"
+        />
       </div>
-      <div>
+      <div className="my-3">
         <JoinLeaveMenu debate={debate} />
       </div>
       {/* title, description */}

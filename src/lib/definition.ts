@@ -51,4 +51,5 @@ export type ArgumentType = {
   votes: string[];
   voteCount: number;
   user: ParticipantType;
+  userName: string;
 };

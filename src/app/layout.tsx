@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import SetToken from "@/components/SetToken";
 import StoreProvider from "@/providers/StoreProvider";
 import { SessionProvider } from "next-auth/react";
+import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const ibmPlex = IBM_Plex_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
@@ -29,9 +31,10 @@ export default function RootLayout({
         <StoreProvider>
           <SessionProvider>
             <SetToken />
+            <Toaster />
             <Navbar className="" />
-            <main className="mt-8  flex-grow flex flex-col ">{children}</main>
-            <footer className="h-10">footer</footer>
+            <main className="my-8  flex-grow flex flex-col ">{children}</main>
+            <Footer />
           </SessionProvider>
         </StoreProvider>
       </body>

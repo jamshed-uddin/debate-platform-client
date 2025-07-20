@@ -1,23 +1,38 @@
-import { requestClient } from "@/lib/requestClient";
+"use client";
+
 import React from "react";
 import ArgumentInputBox from "./ArgumentInputBox";
-import { ArgumentType } from "@/lib/definition";
+import { DebateType } from "@/lib/definition";
+import { useGetArgumentQuery } from "@/redux/api/argumentApi";
+import ArgumentCard from "./ArgumentCard";
 
-const Arguments = async ({ debateId }: { debateId: string }) => {
-  const debateArguments = await requestClient<ArgumentType[]>(
-    `/arguments?debateId=${debateId}`,
-    { method: "GET" }
-  );
+const Arguments = ({ debate }: { debate: DebateType }) => {
+  const {
+    data: debateArguments,
+    isLoading,
+    error,
+  } = useGetArgumentQuery(debate?._id);
 
-  console.log(debateArguments);
+  if (isLoading) {
+    return <h3>Arguments loading...</h3>;
+  }
+
+  if (error) {
+    return <h3>Failed to load arguments</h3>;
+  }
+
   return (
-    <div>
-      <ArgumentInputBox />
+    <div className="space-y-6">
+      <ArgumentInputBox debate={debate} haveCancelButton={false} />
 
-      {!debateArguments.length ? (
+      {!debateArguments?.length ? (
         <div>Be the first to post argument</div>
       ) : (
-        debateArguments.map((debateArg) => <div key={debateArg._id}>hello</div>)
+        <div>
+          {debateArguments?.map((debateArg) => (
+            <ArgumentCard argument={debateArg} key={debateArg._id} />
+          ))}
+        </div>
       )}
     </div>
   );

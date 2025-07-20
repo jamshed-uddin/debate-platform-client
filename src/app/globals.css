@@ -5,6 +5,10 @@ button {
   cursor: pointer !important;
 }
 
+button:active {
+  scale: 0.95 !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

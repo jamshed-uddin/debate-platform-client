@@ -4,7 +4,6 @@ import React from "react";
 const CreateDebatePage = () => {
   return (
     <div>
-      create debate
       <DebateForm />
     </div>
   );

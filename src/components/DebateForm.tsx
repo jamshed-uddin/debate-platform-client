@@ -3,28 +3,24 @@
 import { debateCategories, DebateType } from "@/lib/definition";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+
 import {
   useCreateDebateMutation,
   useUpdateDebateMutation,
 } from "@/redux/api/debateApi";
 import { useRouter } from "next/navigation";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import Image from "next/image";
 const debateSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   banner: z.string({ error: "Enter a valid url" }).optional(),
   category: z.string().min(1, "Category is required"),
   duration: z.string().min(1, "Duration is required"),
-  tags: z.array(z.string()).optional(),
+  tags: z.string().optional(),
 });
 
 export type DebateFormData = z.infer<typeof debateSchema>;
@@ -39,29 +35,47 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
 
   const {
     register,
+
+    setValue,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm<DebateFormData>({
     resolver: zodResolver(debateSchema),
   });
-
   const onSubmit = async (data: DebateFormData) => {
     try {
       if (initialValue) {
-        const updateRes = await updateDebate(data).unwrap();
+        // update debate
+
+        const updateRes = await updateDebate({
+          ...data,
+          tags:
+            typeof data.tags === "string"
+              ? data.tags.split(",").map((t) => t.trim())
+              : data.tags,
+        }).unwrap();
         reset();
         router.replace(`/debates/${updateRes?._id}`);
         console.log(updateRes);
       } else {
-        console.log("hit");
-        const res = await createDebate(data).unwrap();
+        // create debate
+
+        const res = await createDebate({
+          ...data,
+          tags:
+            typeof data.tags === "string"
+              ? data.tags.split(",").map((t) => t.trim())
+              : data.tags,
+        }).unwrap();
         reset();
         router.replace(`/debates/${res?._id}`);
         console.log(res);
       }
-    } catch (error) {
-      setError((error as Error).message);
+    } catch {
+      setError(
+        initialValue ? "Failed to update debate" : "Failed to create debate"
+      );
     }
   };
 
@@ -78,6 +92,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 ? "border-red-500 focus:outline-red-500"
                 : "border-black focus:outline-indigo-500"
             }`}
+            placeholder="e.g. Should Social Media Be Regulated by Governments?"
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title.message}</span>
@@ -93,6 +108,7 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 ? "border-red-500 focus:outline-red-500"
                 : "border-black focus:outline-indigo-500"
             }`}
+            placeholder="e.g. Explore the balance between free speech and misinformation. Should governments step in to regulate platforms?"
           />
           {errors.description && (
             <span className="text-red-500 text-sm">
@@ -101,7 +117,35 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
           )}
         </div>
         <div>
-          <label className="text-sm font-medium mb-1 block">Banner Url</label>
+          <label className="text-sm font-medium mb-1 block">Banner</label>
+          {
+            <div className="h-96 w-full rounded-xl overflow-hidden my-2 relative">
+              <Image
+                src={
+                  "https://i0.wp.com/newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2022/10/e22-debate.png?%2C600&quality=100&ssl=1"
+                }
+                alt="Debate banner"
+                height={200}
+                width={600}
+                className="h-full w-full object-cover object-top rounded-xl"
+              />
+
+              <Button
+                type="button"
+                onClick={() =>
+                  setValue(
+                    "banner",
+                    "https://i0.wp.com/newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2022/10/e22-debate.png?%2C600&quality=100&ssl=1"
+                  )
+                }
+                className="absolute -translate-x-1/2 left-1/2 bottom-5 "
+                size={"sm"}
+                variant={"secondary"}
+              >
+                Use this image
+              </Button>
+            </div>
+          }
           <input
             type="text"
             {...register("banner")}
@@ -110,6 +154,8 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
                 ? "border-red-500 focus:outline-red-500"
                 : "border-black focus:outline-indigo-500"
             }`}
+            placeholder="Image url"
+            defaultValue={initialValue?.banner}
           />
           {errors.banner && (
             <span className="text-red-500 text-sm">
@@ -166,6 +212,22 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
               </span>
             )}
           </div>
+        </div>
+        <div>
+          <label className="text-sm font-medium mb-1 block">Tags</label>
+          <input
+            type="text"
+            {...register("tags")}
+            className={`border rounded-md p-2 block w-full ${
+              errors.tags
+                ? "border-red-500 focus:outline-red-500"
+                : "border-black focus:outline-indigo-500"
+            }`}
+            placeholder="e.g. Ethics, Morality, FreeSpeech, Censorship, Privacy, Freedom, Democracy"
+          />
+          {errors.tags && (
+            <span className="text-red-500 text-sm">{errors.tags.message}</span>
+          )}
         </div>
 
         {error && (

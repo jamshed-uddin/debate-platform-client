@@ -15,16 +15,23 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
   const session = useSession();
   const [hasJoin, setHasJoin] = useState<null | boolean>(null);
   const [action, setAction] = useState("");
+
+  // joined debate status
   useEffect(() => {
     if (!session?.data?.user._id || !debate?.participants) {
       return;
     }
     setHasJoin(hasJoinedDebate(debate?.participants, session?.data?.user._id));
   }, [debate?.participants, session?.data?.user._id]);
+
+  // add participant hook
   const [addParticipant, { isLoading: addParticipantLoading }] =
     useAddParticipantMutation();
+
+  // remove participant hook
   const [removeParticipant, { isLoading }] = useRemoveParticipantsMutation();
 
+  // close modal
   const closeModal = () => setAction("");
 
   const joinDebateHandler = async (side: "Support" | "Oppose") => {
@@ -52,9 +59,8 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
     }
   };
 
-  console.log(hasJoin);
   return (
-    <div>
+    <div className="flex items-center justify-end">
       {!!action && (
         <ModalClient
           open={!!action}
