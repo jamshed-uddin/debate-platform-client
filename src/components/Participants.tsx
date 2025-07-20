@@ -1,9 +1,10 @@
 "use client";
 
-import { ParticipantType } from "@/lib/definition";
-import { requestClient } from "@/lib/requestClient";
+import { UserType } from "@/lib/definition";
+
 import { useGetParticipantsQuery } from "@/redux/api/participantsApi";
 import React from "react";
+import { ParticipantListSkeleton } from "./Skeletons";
 
 const Participants = ({ debateId }: { debateId: string }) => {
   const {
@@ -11,7 +12,15 @@ const Participants = ({ debateId }: { debateId: string }) => {
     isLoading,
     error,
   } = useGetParticipantsQuery(debateId);
-  console.log(participants);
+
+  if (isLoading) {
+    return <ParticipantListSkeleton />;
+  }
+
+  if (error) {
+    return <div className="text-sm">Failed to load participants</div>;
+  }
+
   return (
     <div>
       <h3>Participants . {participants?.length}</h3>
@@ -25,7 +34,9 @@ const Participants = ({ debateId }: { debateId: string }) => {
                 key={indv._id}
                 className="border border-gray-400 rounded-xl p-2"
               >
-                <h3 className="font-semibold">{indv.userId.name}</h3>
+                <h3 className="font-semibold">
+                  {(indv.userId as UserType)?.name}
+                </h3>
               </div>
             ))}
           </div>

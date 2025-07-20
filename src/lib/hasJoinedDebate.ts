@@ -1,5 +1,7 @@
+import { ParticipantType } from "./definition";
+
 export const hasJoinedDebate = (
-  participants: { userId: string; _id: string }[],
+  participants: ParticipantType[],
   userId: string
 ) => {
   const joined = participants?.find((indv) => indv.userId === userId);

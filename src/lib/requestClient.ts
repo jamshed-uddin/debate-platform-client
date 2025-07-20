@@ -19,7 +19,7 @@ export const requestClient = async <T>(
     const { message } = await response
       .json()
       .catch(() => ({ message: response.statusText }));
-    console.log(message);
+
     throw new Error(message);
   }
 

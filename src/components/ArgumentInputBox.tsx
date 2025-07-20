@@ -2,7 +2,10 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { ArgumentType, DebateType } from "@/lib/definition";
-import { usePostArgumentMutation } from "@/redux/api/argumentApi";
+import {
+  useEditArgumentMutation,
+  usePostArgumentMutation,
+} from "@/redux/api/argumentApi";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,6 +37,8 @@ const ArgumentInputBox = ({
   const session = useSession();
 
   const [postArgument, { isLoading }] = usePostArgumentMutation({});
+  const [editArgument, { isLoading: editArgumentLoading }] =
+    useEditArgumentMutation();
 
   const {
     register,
@@ -50,10 +55,7 @@ const ArgumentInputBox = ({
         return toast.error("Login to post argument");
       }
 
-      if (
-        session.status === "authenticated" &&
-        hasJoinedDebate(debate?.participants, session?.data?.user?._id)
-      ) {
+      if (!hasJoinedDebate(debate?.participants, session?.data?.user?._id)) {
         return toast.error("Join debate to post argument");
       }
 
@@ -61,14 +63,38 @@ const ArgumentInputBox = ({
         return toast.error("Debate has ended");
       }
 
-      await postArgument({
-        debateId: debate?._id,
-        content: data.content,
-      }).unwrap();
+      const participantsSide = debate?.participants.find(
+        (participant) => participant.userId === session?.data.user._id
+      )?.side;
+
+      console.log("side", participantsSide);
+
+      if (!participantsSide) {
+        return toast.error("Join debate to post argument");
+      }
+
+      if (initialArgument) {
+        await editArgument({
+          content: data.content,
+          argumentId: initialArgument._id,
+        }).unwrap();
+        reset();
+      } else {
+        await postArgument({
+          debateId: debate?._id,
+          content: data.content,
+          side: participantsSide,
+        }).unwrap();
+
+        reset();
+      }
       onSubmitSuccess?.();
-      reset();
     } catch {
-      toast.error("Failed to post argument");
+      if (initialArgument) {
+        toast.error("Failed to edit argument");
+      } else {
+        toast.error("Failed to post argument");
+      }
     }
   };
 
@@ -77,11 +103,12 @@ const ArgumentInputBox = ({
       <textarea
         {...register("content")}
         rows={3}
-        className={`border rounded-md p-2 block w-full resize-none ${
+        className={`border border-gray-300 rounded-md p-2 block w-full resize-none ${
           errors.content
             ? "border-red-500 focus:outline-red-500"
             : "border-black focus:outline-indigo-500"
         }`}
+        placeholder="Your argument"
         defaultValue={initialArgument?.content}
       />
       {errors.content && (
@@ -101,6 +128,7 @@ const ArgumentInputBox = ({
         )}
         <Button
           disabled={
+            editArgumentLoading ||
             isLoading ||
             remainingDebateTime(debate?.createdAt, debate?.duration) < 1
           }

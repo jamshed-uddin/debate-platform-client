@@ -12,10 +12,12 @@ import {
 } from "@/redux/api/participantsApi";
 import { remainingDebateTime } from "@/lib/timeUtilities";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
   const session = useSession();
   const [hasJoin, setHasJoin] = useState<null | boolean>(null);
+  const router = useRouter();
   const [action, setAction] = useState("");
 
   // joined debate status
@@ -38,26 +40,26 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
 
   const joinDebateHandler = async (side: "Support" | "Oppose") => {
     try {
-      const res = await addParticipant({
+      await addParticipant({
         debateId: debate?._id,
         side,
       }).unwrap();
       closeModal();
       setHasJoin(true);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+      router.refresh();
+    } catch {
+      toast.error("Failed to join debate");
     }
   };
 
   const leaveDebateHandler = async () => {
     try {
-      const res = await removeParticipant(debate?._id).unwrap();
-      console.log(res);
+      await removeParticipant(debate?._id).unwrap();
       setHasJoin(false);
+      router.refresh();
       closeModal();
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Failed to leave debate");
     }
   };
 

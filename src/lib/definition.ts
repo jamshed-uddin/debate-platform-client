@@ -7,7 +7,8 @@ export type DebateType = {
   banner: string;
   duration: number;
   tags: string[];
-  participants: { _id: string; userId: string }[];
+  participants: ParticipantType[];
+  winner: "Support" | "Oppose";
   createdAt: string;
   updatedAt: string;
 };
@@ -36,7 +37,7 @@ export type DebateCategoryType = (typeof debateCategories)[number];
 
 export type ParticipantType = {
   _id: string;
-  userId: UserType;
+  userId: UserType | string;
   debateId: string;
   side: "Support" | "Oppose";
   createdAt: string;

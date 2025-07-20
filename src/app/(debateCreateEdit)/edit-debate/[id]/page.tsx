@@ -10,7 +10,6 @@ const EditDebatePage = async ({
   const { id } = await params;
 
   const debate = await getDebate(id);
-  console.log(debate);
 
   return (
     <div>

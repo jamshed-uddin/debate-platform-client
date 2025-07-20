@@ -12,7 +12,6 @@ import {
   useUpdateDebateMutation,
 } from "@/redux/api/debateApi";
 import { useRouter } from "next/navigation";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Image from "next/image";
 const debateSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -44,7 +43,6 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
     resolver: zodResolver(debateSchema),
   });
 
-  console.log(initialValue);
   const onSubmit = async (data: DebateFormData) => {
     setError("");
     try {
@@ -59,11 +57,9 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
               ? data.tags.split(",").map((t) => t.trim())
               : data.tags,
         };
-        console.log(updatedData);
         const updateRes = await updateDebate(updatedData).unwrap();
         reset();
         router.replace(`/debates/${updateRes?._id}`);
-        console.log(updateRes);
       } else {
         // create debate
 
@@ -76,7 +72,6 @@ const DebateForm = ({ initialValue }: { initialValue?: DebateType }) => {
         }).unwrap();
         reset();
         router.replace(`/debates/${res?._id}`);
-        console.log(res);
       }
     } catch {
       setError(

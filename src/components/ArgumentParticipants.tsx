@@ -3,9 +3,9 @@ import Arguments from "./Arguments";
 import Participants from "./Participants";
 import { DebateType } from "@/lib/definition";
 
-const ArgumentParticipants = ({ debate }: { debate: DebateType }) => {
+const ArgumentsAndParticipants = ({ debate }: { debate: DebateType }) => {
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-10 lg:flex-row flex-col">
       <div className=" rounded-xl  flex-1">
         <Arguments debate={debate} />
       </div>
@@ -16,4 +16,4 @@ const ArgumentParticipants = ({ debate }: { debate: DebateType }) => {
   );
 };
 
-export default ArgumentParticipants;
+export default ArgumentsAndParticipants;

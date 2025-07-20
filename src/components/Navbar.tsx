@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const Navbar = async ({ className }: { className?: string }) => {
   const session = await auth();
-  console.log(session);
+
   return (
     <nav className={cn("py-3", className)}>
       <ul className="flex gap-5 items-center">

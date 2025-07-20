@@ -16,7 +16,6 @@ export const signInWithemailPassword = async (credentials: {
       message: "Signin successful",
     };
   } catch (error) {
-    console.log(error);
     if (error instanceof AuthError) {
       return {
         success: false,

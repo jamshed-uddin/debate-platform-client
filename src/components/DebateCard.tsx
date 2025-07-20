@@ -11,11 +11,15 @@ const DebateCard = ({ debate }: { debate: DebateType }) => {
     <Link href={`/debates/${debate._id}`}>
       <Card className="pt-0 overflow-hidden">
         <CardHeader className="relative px-0 ">
-          <div className="absolute top-2 right-2 text-xs bg-black text-white rounded-xl px-2">
+          <div className="absolute top-2 right-2 text-xs   px-2">
             {remainingDebateTime(debate?.createdAt, debate?.duration) < 1 ? (
-              <div>Ended</div>
+              <div className="border-red-500 bg-red-200 rounded-xl px-1.5">
+                Ended
+              </div>
             ) : (
-              <div>On going</div>
+              <div className="bg-black text-white rounded-xl px-1.5">
+                On going
+              </div>
             )}
           </div>
           <div className="h-40 w-full overflow-hidden">

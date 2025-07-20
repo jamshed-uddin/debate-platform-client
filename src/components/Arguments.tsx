@@ -5,6 +5,7 @@ import ArgumentInputBox from "./ArgumentInputBox";
 import { DebateType } from "@/lib/definition";
 import { useGetArgumentQuery } from "@/redux/api/argumentApi";
 import ArgumentCard from "./ArgumentCard";
+import { ArgumentListSkeleton } from "./Skeletons";
 
 const Arguments = ({ debate }: { debate: DebateType }) => {
   const {
@@ -14,7 +15,7 @@ const Arguments = ({ debate }: { debate: DebateType }) => {
   } = useGetArgumentQuery(debate?._id);
 
   if (isLoading) {
-    return <h3>Arguments loading...</h3>;
+    return <ArgumentListSkeleton />;
   }
 
   if (error) {
@@ -30,7 +31,11 @@ const Arguments = ({ debate }: { debate: DebateType }) => {
       ) : (
         <div className="space-y-4">
           {debateArguments?.map((debateArg) => (
-            <ArgumentCard argument={debateArg} key={debateArg._id} />
+            <ArgumentCard
+              argument={debateArg}
+              key={debateArg._id}
+              debate={debate}
+            />
           ))}
         </div>
       )}

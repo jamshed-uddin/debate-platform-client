@@ -9,7 +9,7 @@ const argumentApi = baseApi.injectEndpoints({
     }),
     postArgument: builder.mutation<
       { message: string },
-      { debateId: string; content: string }
+      { debateId: string; content: string; side: "Support" | "Oppose" }
     >({
       query: (body) => ({
         url: "/arguments",
@@ -18,7 +18,31 @@ const argumentApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["ARGUMENTS"],
     }),
+    editArgument: builder.mutation<
+      { message: string },
+      { argumentId: string; content: string }
+    >({
+      query: ({ argumentId, content }) => ({
+        url: `/arguments/${argumentId}`,
+        method: "PUT",
+        body: { content },
+      }),
+      invalidatesTags: ["ARGUMENTS"],
+    }),
+
+    deleteArgument: builder.mutation({
+      query: (argumentId) => ({
+        url: `/arguments/${argumentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["ARGUMENTS"],
+    }),
   }),
 });
 
-export const { useGetArgumentQuery, usePostArgumentMutation } = argumentApi;
+export const {
+  useGetArgumentQuery,
+  usePostArgumentMutation,
+  useEditArgumentMutation,
+  useDeleteArgumentMutation,
+} = argumentApi;
