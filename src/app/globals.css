@@ -9,6 +9,11 @@ button:active {
   scale: 0.95 !important;
 }
 
+button:disabled {
+  opacity: 0.6 !important;
+  cursor: auto !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

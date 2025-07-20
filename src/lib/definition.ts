@@ -52,4 +52,6 @@ export type ArgumentType = {
   voteCount: number;
   user: ParticipantType;
   userName: string;
+  createdAt: string;
+  updatedAt: string;
 };

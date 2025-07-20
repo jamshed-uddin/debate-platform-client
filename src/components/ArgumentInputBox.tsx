@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { hasJoinedDebate } from "@/lib/hasJoinedDebate";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { remainingDebateTime } from "@/lib/timeUtilities";
 
 type FormData = {
   content: string;
@@ -32,8 +33,7 @@ const ArgumentInputBox = ({
 }) => {
   const session = useSession();
 
-  const [postArgument, { isLoading, error: postArgumentError }] =
-    usePostArgumentMutation({});
+  const [postArgument, { isLoading }] = usePostArgumentMutation({});
 
   const {
     register,
@@ -56,6 +56,11 @@ const ArgumentInputBox = ({
       ) {
         return toast.error("Join debate to post argument");
       }
+
+      if (remainingDebateTime(debate?.createdAt, debate?.duration) < 1) {
+        return toast.error("Debate has ended");
+      }
+
       await postArgument({
         debateId: debate?._id,
         content: data.content,
@@ -67,14 +72,12 @@ const ArgumentInputBox = ({
     }
   };
 
-  console.log(postArgumentError);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <textarea
         {...register("content")}
         rows={3}
-        className={`border rounded-md p-2 block w-full ${
+        className={`border rounded-md p-2 block w-full resize-none ${
           errors.content
             ? "border-red-500 focus:outline-red-500"
             : "border-black focus:outline-indigo-500"
@@ -84,9 +87,7 @@ const ArgumentInputBox = ({
       {errors.content && (
         <span className="text-red-500 text-sm">{errors.content.message}</span>
       )}
-      {postArgumentError && (
-        <span className="text-sm text-red-500">Failed to post argument</span>
-      )}
+
       <div className="flex justify-end gap-3 mt-2">
         {haveCancelButton && (
           <Button
@@ -98,7 +99,14 @@ const ArgumentInputBox = ({
             Cancel
           </Button>
         )}
-        <Button disabled={isLoading} type="submit" size={"sm"}>
+        <Button
+          disabled={
+            isLoading ||
+            remainingDebateTime(debate?.createdAt, debate?.duration) < 1
+          }
+          type="submit"
+          size={"sm"}
+        >
           Post
         </Button>
       </div>

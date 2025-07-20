@@ -10,6 +10,7 @@ import {
   useAddParticipantMutation,
   useRemoveParticipantsMutation,
 } from "@/redux/api/participantsApi";
+import { remainingDebateTime } from "@/lib/timeUtilities";
 
 const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
   const session = useSession();
@@ -129,7 +130,13 @@ const JoinLeaveMenu = ({ debate }: { debate: DebateType }) => {
           Leave
         </Button>
       ) : (
-        <Button size={"sm"} onClick={() => setAction("join")}>
+        <Button
+          size={"sm"}
+          onClick={() => setAction("join")}
+          disabled={
+            remainingDebateTime(debate?.createdAt, debate?.duration) < 1
+          }
+        >
           Join
         </Button>
       )}

@@ -28,7 +28,7 @@ const Arguments = ({ debate }: { debate: DebateType }) => {
       {!debateArguments?.length ? (
         <div>Be the first to post argument</div>
       ) : (
-        <div>
+        <div className="space-y-4">
           {debateArguments?.map((debateArg) => (
             <ArgumentCard argument={debateArg} key={debateArg._id} />
           ))}

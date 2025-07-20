@@ -4,6 +4,9 @@ import JoinLeaveMenu from "@/components/JoinLeaveMenu";
 
 import { DebateType } from "@/lib/definition";
 import { requestClient } from "@/lib/requestClient";
+import { remainingDebateTime } from "@/lib/timeUtilities";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 import Image from "next/image";
 import React from "react";
 
@@ -37,7 +40,7 @@ const DebateDetailPage = async ({
 }) => {
   const { id } = await params;
   const debate = await getDebate(id);
-  console.log(debate);
+
   return (
     <div className="mb-10">
       <div className="h-96 w-full rounded-xl overflow-hidden my-2 relative">
@@ -49,7 +52,22 @@ const DebateDetailPage = async ({
           className="h-full w-full object-cover object-top rounded-xl"
         />
       </div>
-      <div className="my-3">
+      <div className="my-3 flex justify-end gap-4">
+        <div
+          className={clsx(
+            "flex items-center gap-2",
+
+            remainingDebateTime(debate?.createdAt, debate?.duration) < 1 &&
+              "text-red-500"
+          )}
+        >
+          <ClockIcon className="w-4 h-4 " />{" "}
+          <span>
+            {remainingDebateTime(debate?.createdAt, debate?.duration)} /{" "}
+            {debate?.duration / 3600000}{" "}
+            <span>{debate?.duration / 3600000 > 1 ? "hrs" : "hr"}</span>
+          </span>
+        </div>
         <JoinLeaveMenu debate={debate} />
       </div>
       {/* title, description */}
