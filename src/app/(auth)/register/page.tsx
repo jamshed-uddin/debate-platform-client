@@ -6,9 +6,8 @@ import { Metadata } from "next";
 import RegisterForm from "./RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Register - UpTrack",
-  description:
-    "Track your journey, mark progress, stay focused and keep moving forward",
+  title: "Register - Open Debate",
+  description: "Space for thoughtful disagreement",
 };
 
 const Register = async () => {

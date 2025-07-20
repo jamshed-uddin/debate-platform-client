@@ -3,7 +3,7 @@ import DebateSearchAndFilter from "@/components/DebateSearchAndFilter";
 import { DebateType } from "@/lib/definition";
 import { requestClient } from "@/lib/requestClient";
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Debates - Open Debate",
   description: "Space for thoughtful disagreement",
@@ -24,7 +24,9 @@ const DebatesPage = async ({
   return (
     <div>
       <div className="mb-5">
-        <DebateSearchAndFilter />
+        <Suspense>
+          <DebateSearchAndFilter />
+        </Suspense>
       </div>
       <DebateList debates={debates} />
     </div>

@@ -2,7 +2,13 @@ import { auth } from "@/auth";
 import DebateList from "@/components/DebateList";
 import { DebateType } from "@/lib/definition";
 import { requestClient } from "@/lib/requestClient";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Account - Open Debate",
+  description: "Space for thoughtful disagreement",
+};
 
 const AccontPage = async () => {
   const session = await auth();

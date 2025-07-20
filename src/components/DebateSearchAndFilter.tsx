@@ -1,16 +1,7 @@
 "use client";
 
 import React, { ChangeEvent } from "react";
-
 import { Button } from "./ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useDebouncedCallback } from "use-debounce";
